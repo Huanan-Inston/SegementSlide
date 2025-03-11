@@ -119,18 +119,9 @@ extension SegementSlideViewController {
         switcherView.translatesAutoresizingMaskIntoConstraints = false
         if switcherView.topConstraint == nil {
             let topConstraint = switcherView.topAnchor.constraint(equalTo: headerView.bottomAnchor)
-            topConstraint.priority = UILayoutPriority(rawValue: 999)
             switcherView.topConstraint = topConstraint
         }
-        if safeAreaTopConstraint == nil {
-            safeAreaTopConstraint?.isActive = false
-            if #available(iOS 11, *) {
-                safeAreaTopConstraint = switcherView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor)
-            } else {
-                safeAreaTopConstraint = switcherView.topAnchor.constraint(greaterThanOrEqualTo: topLayoutGuide.bottomAnchor)
-            }
-            safeAreaTopConstraint?.isActive = true
-        }
+
         if switcherView.leadingConstraint == nil {
             switcherView.leadingConstraint = switcherView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         }
@@ -156,7 +147,14 @@ extension SegementSlideViewController {
             contentView.trailingConstraint = contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         }
         if contentView.bottomConstraint == nil {
-            contentView.bottomConstraint = contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            contentView.bottomConstraint = contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
+        }
+        if contentView.heightConstraint == nil {
+            contentView.heightConstraint = contentView.heightAnchor.constraint(equalToConstant: contentViewHeight)
+        } else {
+            if contentView.heightConstraint?.constant != contentViewHeight {
+                contentView.heightConstraint?.constant = contentViewHeight
+            }
         }
         
         headerView.layer.zPosition = -3
