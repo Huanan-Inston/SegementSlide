@@ -210,6 +210,7 @@ extension SegementSlideViewController {
             cachedChildViewControllerIndex.remove(index)
             childScrollView.forceStopScroll()
             childScrollView.forceFixedContentOffsetY = 0
+            (childScrollView as? UICollectionView)?.reloadData()
         }
     }
     
